@@ -53,20 +53,15 @@ a {
     font-weight: 700;
     letter-spacing: -0.01em;
 }
-.brand-mark {
-    width: 26px;
-    height: 26px;
+.brand-logo {
+    width: 28px;
+    height: 28px;
     border-radius: 6px;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 6px 18px rgba(47,122,74,0.35);
-    position: relative;
-}
-.brand-mark::after {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border-radius: 3px;
-    border: 1.5px solid rgba(255,255,255,0.85);
+    object-fit: contain;
+    display: block;
+    /* Subtle drop-shadow gives the logo definition on the dark
+       header without needing a background tile. */
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 .brand-word {
     font-size: 18px;
@@ -305,13 +300,33 @@ h3 { font-size: 18px; line-height: 1.3; font-family: -apple-system, BlinkMacSyst
     margin-bottom: 28px;
 }
 .signup-form {
-    display: flex;
-    gap: 10px;
-    max-width: 460px;
+    max-width: 520px;
     margin: 0 auto 14px;
+    text-align: left;
+}
+.signup-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+@media (max-width: 540px) {
+    .signup-row { grid-template-columns: 1fr; }
+}
+.signup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.signup-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 600;
 }
 .signup-form input {
-    flex: 1;
+    width: 100%;
     padding: 14px 16px;
     background: var(--surface);
     color: var(--ink);
@@ -319,13 +334,37 @@ h3 { font-size: 18px; line-height: 1.3; font-family: -apple-system, BlinkMacSyst
     border-radius: 8px;
     font-size: 15px;
     font-family: inherit;
+    transition: border-color 0.15s;
 }
 .signup-form input:focus {
     outline: none;
     border-color: var(--accent);
 }
-@media (max-width: 480px) {
-    .signup-form { flex-direction: column; }
+.signup-form input::placeholder {
+    color: var(--ink-mute);
+    opacity: 0.6;
+}
+.signup-submit {
+    width: 100%;
+    margin-top: 4px;
+}
+.signup-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.signup-status {
+    min-height: 18px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    text-align: center;
+}
+.signup-status.is-error {
+    color: #C16B6B;  /* refined brick, matches Theme.Editorial.danger */
+}
+.signup-success {
+    text-align: center;
+    padding: 16px 0 4px;
 }
 .cta-fineprint {
     color: var(--ink-mute);
