@@ -103,7 +103,64 @@
                     <li>See who's coming before the gates open</li>
                     <li>Optional paid promotion to reach drivers outside your follower base</li>
                 </ul>
-                <a class="btn btn-primary" href="mailto:austin@carlinkhq.com?subject=Organizer%20Inquiry">Get on the early access list</a>
+
+                <form id="organizer-form" class="signup-form organizer-form" autocomplete="on" novalidate>
+                    <div class="signup-row">
+                        <label class="signup-field">
+                            <span class="signup-label">Full Name *</span>
+                            <input id="org-name" name="name" type="text" required
+                                   placeholder="Jane Smith" autocomplete="name"
+                                   aria-label="Full name">
+                        </label>
+                        <label class="signup-field">
+                            <span class="signup-label">Email *</span>
+                            <input id="org-email" name="email" type="email" required
+                                   placeholder="you@example.com" autocomplete="email"
+                                   aria-label="Email address">
+                        </label>
+                    </div>
+                    <div class="signup-row">
+                        <label class="signup-field">
+                            <span class="signup-label">Instagram</span>
+                            <input id="org-instagram" name="instagram" type="text"
+                                   placeholder="@yourhandle or full URL"
+                                   aria-label="Instagram handle"
+                                   autocapitalize="none" autocorrect="off">
+                        </label>
+                        <label class="signup-field">
+                            <span class="signup-label">Phone</span>
+                            <input id="org-phone" name="phone" type="tel"
+                                   placeholder="(555) 555-5555" autocomplete="tel"
+                                   aria-label="Phone number">
+                        </label>
+                    </div>
+                    <div class="signup-row">
+                        <label class="signup-field">
+                            <span class="signup-label">Organization / Club</span>
+                            <input id="org-organization" name="organization" type="text"
+                                   placeholder="e.g. Atlanta Cars &amp; Coffee"
+                                   aria-label="Organization or club name">
+                        </label>
+                        <label class="signup-field">
+                            <span class="signup-label">City, State *</span>
+                            <input id="org-city" name="city" type="text" required
+                                   placeholder="Atlanta, GA" autocomplete="address-level2"
+                                   aria-label="City and state">
+                        </label>
+                    </div>
+                    <label class="signup-field organizer-message-field">
+                        <span class="signup-label">Tell us about your shows</span>
+                        <textarea id="org-message" name="message" rows="4"
+                                  placeholder="What kind of events do you host? How often, and roughly how many cars?"
+                                  aria-label="Tell us about your shows"></textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary signup-submit" id="org-submit">
+                        Get on the early access list
+                    </button>
+                    <p class="signup-status" id="org-status" role="status" aria-live="polite"></p>
+                </form>
+
+                <p class="cta-fineprint organizer-fineprint">CarLink HQ uses this info to follow up about your show and your organizer account. We don't share it.</p>
             </div>
         </div>
     </section>
@@ -157,6 +214,7 @@
 </footer>
 
 <script src="/signup.js" defer></script>
+<script src="/organizer-inquiry.js" defer></script>
 
 </body>
 </html>

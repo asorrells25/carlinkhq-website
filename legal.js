@@ -9,8 +9,13 @@
 // already public-readable. If the repo's branch ever changes from
 // `main` to something else, swap LEGAL_BRANCH below.
 
-const LEGAL_REPO   = "carlinkhq/legal";
-const LEGAL_BRANCH = "main";
+// Try the canonical carlinkhq org first; fall back to the legacy
+// asorrells25 location if the new repo isn't reachable (e.g. hasn't
+// been re-pushed yet, or the rename redirect is still propagating).
+// Whichever returns 200 first wins; the user always sees the docs.
+const LEGAL_REPO_PRIMARY  = "carlinkhq/legal";
+const LEGAL_REPO_FALLBACK = "asorrells25/legal";
+const LEGAL_BRANCH        = "main";
 
 const FILES = {
     terms_of_service:     "terms_of_service.md",
@@ -33,11 +38,22 @@ const FILES = {
         return;
     }
 
-    const url = "https://raw.githubusercontent.com/" + LEGAL_REPO +
-                "/" + LEGAL_BRANCH + "/" + filename;
+    function urlFor(repo) {
+        return "https://raw.githubusercontent.com/" + repo +
+               "/" + LEGAL_BRANCH + "/" + filename;
+    }
 
-    fetch(url, { cache: "no-store" })
-        .then((r) => r.ok ? r.text() : Promise.reject(r.status))
+    // Race the two sources: whichever returns 200 first wins. We
+    // can't use Promise.any because we want a 404 from one of them
+    // to NOT count as success — so we explicitly resolve only on
+    // a 2xx response and pass everything else through to .catch.
+    function fetchFromRepo(repo) {
+        return fetch(urlFor(repo), { cache: "no-store" })
+            .then((r) => r.ok ? r.text() : Promise.reject({ repo, status: r.status }));
+    }
+
+    fetchFromRepo(LEGAL_REPO_PRIMARY)
+        .catch(() => fetchFromRepo(LEGAL_REPO_FALLBACK))
         .then((markdown) => {
             const { metadata, body } = splitFrontmatter(markdown);
             if (metaEl) {
@@ -53,10 +69,10 @@ const FILES = {
             bodyEl.innerHTML = renderMarkdown(body);
         })
         .catch((err) => {
-            console.error("Legal doc fetch failed:", err);
+            console.error("Legal doc fetch failed (both repos):", err);
             bodyEl.innerHTML =
                 "<p style=\"color:#A8A39A;\">Couldn't load the latest version. View it directly on GitHub: " +
-                "<a href=\"https://github.com/" + LEGAL_REPO + "/blob/" + LEGAL_BRANCH + "/" + filename + "\" rel=\"noopener\">" +
+                "<a href=\"https://github.com/" + LEGAL_REPO_PRIMARY + "/blob/" + LEGAL_BRANCH + "/" + filename + "\" rel=\"noopener\">" +
                 filename + "</a> — or email " +
                 "<a href=\"mailto:austin@carlinkhq.com\">austin@carlinkhq.com</a> for the current PDF.</p>";
         });
