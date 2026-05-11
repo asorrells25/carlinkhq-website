@@ -1,6 +1,6 @@
 // Pulls the latest privacy policy / terms of service / community
 // guidelines markdown directly from the canonical legal repo on
-// GitHub (github.com/asorrells25/legal). The same source the iOS
+// GitHub (github.com/carlinkhq/legal). The same source the iOS
 // app's legal_documents table is mirrored from — so the website,
 // the in-app reader, and the repo never drift apart.
 //
@@ -9,7 +9,7 @@
 // already public-readable. If the repo's branch ever changes from
 // `main` to something else, swap LEGAL_BRANCH below.
 
-const LEGAL_REPO   = "asorrells25/legal";
+const LEGAL_REPO   = "carlinkhq/legal";
 const LEGAL_BRANCH = "main";
 
 const FILES = {
